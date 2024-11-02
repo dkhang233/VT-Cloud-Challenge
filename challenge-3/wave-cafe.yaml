@@ -1,0 +1,33 @@
+#Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wave-cafe-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wave-cafe
+  template:
+    metadata:
+      labels:
+        app: wave-cafe
+    spec:
+      containers:
+        - name: wave-cafe-container
+          image: dkhang233/wave-cafe:latest
+          ports:
+            - containerPort: 80
+---
+#Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: web1
+spec:
+  selector:
+    app: wave-cafe
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80

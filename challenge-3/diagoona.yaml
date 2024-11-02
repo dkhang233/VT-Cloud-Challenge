@@ -1,0 +1,33 @@
+#Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diagoona-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: diagoona
+  template:
+    metadata:
+      labels:
+        app: diagoona
+    spec:
+      containers:
+        - name: diagoona-container
+          image: dkhang233/diagoona:latest
+          ports:
+            - containerPort: 80
+---
+#Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: web2
+spec:
+  selector:
+    app: diagoona
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
